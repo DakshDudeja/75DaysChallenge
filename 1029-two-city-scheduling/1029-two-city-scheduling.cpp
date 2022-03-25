@@ -1,18 +1,22 @@
 class Solution {
 public:
-    //greedy solution (Tough One)
-    static bool com(int a,int b){
-        return a>b;
-    }
     int twoCitySchedCost(vector<vector<int>>& costs) {
-        int ans(0);
-        vector<int>refund;
-        for(auto it:costs){
-            ans+=it[0];
-            refund.push_back(it[0]-it[1]);
+        int n=costs.size();
+        priority_queue<pair<int,int>>pq;
+        for(int i=0;i<n;i++){
+           pq.push({costs[i][0]-costs[i][1],i}); 
         }
-        sort(begin(refund),end(refund),com);
-        for(int i=0;i<(refund.size()/2);i++)ans-=refund[i];
-        return ans;
+        int cnt=0;
+        while(pq.size()>n/2){
+            int j=pq.top().second;
+            cnt+=costs[j][1];
+            pq.pop();
+        }
+        while(!pq.empty()){
+            int j=pq.top().second;
+            cnt+=costs[j][0];
+            pq.pop();
+        }
+         return cnt;
     }
 };
