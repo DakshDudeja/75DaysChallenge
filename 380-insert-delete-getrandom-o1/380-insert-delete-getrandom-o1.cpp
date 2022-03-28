@@ -1,26 +1,35 @@
 class RandomizedSet {
 public:
+    vector<int>t;
+    unordered_map<int,int>mp;
     RandomizedSet() {
         
     }
-    unordered_set<int>st;
+    
     bool insert(int val) {
-        if(st.count(val)) return false;
-        else
-            st.insert(val);
+        if(mp.find(val)!=mp.end())return false;
+        
+        else{
+        t.push_back(val);
+        mp[val]=(t.size()-1);
         return true;
+        }
     }
     
     bool remove(int val) {
-        if(st.count(val)){
-            st.erase(val);
-            return true;}
-        else
-            return false;
+        if(mp.find(val)==mp.end())return false;
+        
+        int last=t.back();
+        int s=mp[val];
+        t[s]=t.back();
+        t.pop_back();
+        mp[last]=mp[val];
+        mp.erase(val);
+        return true;
     }
     
     int getRandom() {
-      return *next(st.begin(),rand()%st.size());   //it is taking O(n) so that is why set fails here.
+        return t[rand()%t.size()];
     }
 };
 
