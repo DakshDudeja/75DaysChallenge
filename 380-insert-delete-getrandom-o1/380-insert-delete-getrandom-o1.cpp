@@ -20,7 +20,7 @@ public:
     }
     
     int getRandom() {
-      return *next(st.begin(),rand()%st.size());
+      return *next(st.begin(),rand()%st.size());   //it is taking O(n) so that is why set fails here.
     }
 };
 
