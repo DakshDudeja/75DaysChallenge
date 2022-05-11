@@ -1,40 +1,26 @@
 class Solution {
-    
-    vector<vector<int>> ansArr;
-    
 public:
-    
-    int sum(vector<int>& combination){
-        int ans = 0;
-        for(auto x: combination){
-            ans += x;
-        }
-        return ans;
-    }
-    
-    void combinationSumHelper(int k, int n, vector<int>& combination, int num){
+    vector<vector<int>>res;    
+    void solve(int k,int target,int currSum,int i,vector<int>&ans){
         
-        if(k == 0){
-            if(sum(combination) == n ){
-                ansArr.push_back(combination);
-            }
-            return;
+        if(target < 0 || ans.size() > k) return ;
+        if(ans.size()==k and target==0 ){            
+            res.push_back(ans);
+            return ;
         }
         
-        if(num > 9) return;
+        //cout<<i<<" "<<currSum<<" "<<target<<endl;
         
-        combination.push_back(num);  // Including num in combination
-        combinationSumHelper(k - 1, n, combination, num + 1);
-        combination.pop_back(); // Not including num in combination
-        combinationSumHelper(k, n, combination, num + 1);    
-        
+        for(int idx=i;idx<=9; idx++){
+                ans.push_back(idx);
+                solve(k,target-idx,currSum+idx,idx+1,ans);
+                ans.pop_back();
+        }
+        return ;
     }
-    
     vector<vector<int>> combinationSum3(int k, int n) {
-        
-        vector<int> combination;
-        combinationSumHelper(k, n, combination, 1);
-        return ansArr;
-        
+        vector<int>ans;
+        solve(k,n,0,1,ans);
+        return res;
     }
 };
