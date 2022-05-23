@@ -1,31 +1,22 @@
 class Solution {
 public:
     int countSubstrings(string s) {
-        vector<vector<bool>>dp(s.length(),vector<bool>(s.length()));
-        int count=0;
-        for(int g=0;g<s.length();g++){
-            
-            for(int i=0,j=g ; j<dp.size() ; i++,j++){
-                if(g==0){
-                    dp[i][j]=true;
-                }
-                else if(g==1){
-                   if(s[i]==s[j]){
-                       dp[i][j]=true;
-                   }
-                    else
-                        dp[i][j]=false;
-                }
-                else{
-                    if(s[i]==s[j] and dp[i+1][j-1] == true){
-                        dp[i][j]=true;
-                    }
-                    else
-                        dp[i][j]=false;
-                }
-                if(dp[i][j]) count++;
+        int cnt=0;
+        for(int i=0;i<s.size();i++){
+                int b=i,e=i;
+                while( b>=0 and e<s.size() and s[b]==s[e] ){ // for odd length palindromes
+                     cnt++;
+                     b--,e++;
+                
             }
+            
+                int d=i,f=i+1;
+                while(d>=0 and f<s.size() and s[d]==s[f]){  //for even length palindromes
+                     cnt++;
+                     d--,f++;
+                }
+            
         }
-        return count;
+        return cnt;
     }
 };
