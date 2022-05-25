@@ -1,7 +1,7 @@
 class Solution {
 public:
     int solve(int idx,int prev_idx,vector<int>& nums, vector<vector<int>>&dp){
-        if(idx==nums.size()) return 0;
+        if(idx>=nums.size()) return 0;
         
         if(dp[idx][prev_idx+1]!=-1) return dp[idx][prev_idx+1];
         
