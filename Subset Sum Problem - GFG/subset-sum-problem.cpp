@@ -7,31 +7,27 @@ using namespace std;
  // } Driver Code Ends
 //User function template for C++
 
-class Solution{ 
-   int fun(vector<int>&arr,int sum,int n,vector<vector<int>>&dp,int i)
-   {
-       if(i >= n)return 0;
-       if(sum < 0)return 0;
-       if(dp[i][sum] != -1)return dp[i][sum];
-       int a =0,b=0;
-       if(sum - arr[i] >=0)
-       {
-           a = max(arr[i]+fun(arr,sum-arr[i],n,dp,i+1), fun(arr,sum,n,dp,i+1));
-       }
-       else
-       b = fun(arr,sum,n,dp,i+1);
-       
-       return dp[i][sum] = max(a,b);
-   }
+class Solution{   
 public:
-   bool isSubsetSum(vector<int>arr, int sum){
-       // code here 
-       int n = arr.size();
-       vector<vector<int>>dp(n+1,vector<int>(sum+1, -1));
-       int x = fun(arr,sum,n,dp,0);
-       if(x == sum)return true;
-       return false;
-   }
+    int dp[101][10001];
+    bool solve(int i,vector<int>&arr,int sum){
+        if(sum==0)return true;
+        if(i>=arr.size() || sum<0)return false;
+        if(dp[i][sum]!=-1) return dp[i][sum];
+        
+        bool a=0,b=0;
+        if(sum-arr[i] >= 0){
+                a=solve(i+1,arr,sum-arr[i]);
+            }
+        b = solve(i+1,arr,sum);
+        
+        return dp[i][sum]=a || b;
+    }
+    bool isSubsetSum(vector<int>arr, int sum){
+        sort(arr.begin(),arr.end());
+        memset(dp,-1,sizeof(dp));
+        return solve(0,arr,sum);
+    }
 };
 
 // { Driver Code Starts.
