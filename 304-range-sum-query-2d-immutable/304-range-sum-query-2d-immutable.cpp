@@ -16,15 +16,12 @@ public:
             }
         }
         
-        //Our Presum Matrix
         mat = matrix;
     }
     
     int sumRegion(int row1, int col1, int row2, int col2) {
-		//Sum of elements till row2 and col2 (green rectangle)
         int sum = mat[row2][col2];
         
-		//Redundant elements (elements in blue rectangles - elements in white ellipse)
         int extra = ((row1==0)?0:mat[row1-1][col2]) + ((col1==0)?0:mat[row2][col1-1]) - ((row1!=0 && col1!=0)?mat[row1-1][col1-1]:0);
 
         return sum-extra;
