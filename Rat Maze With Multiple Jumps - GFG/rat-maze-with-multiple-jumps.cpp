@@ -5,41 +5,24 @@ using namespace std;
  // } Driver Code Ends
 class Solution {
 public:
-
-bool isSafe(vector<vector<int>> &matrix, int x, int y){
-        if(x>=matrix.size() || y>=matrix[0].size() || matrix[x][y]==0){
-            return false;
-        }
-        return true;
+bool helper(vector<vector<int>> &res,vector<vector<int>>& matrix,int n,int i,int j){
+   if(i>=n || j>=n) return false;
+   res[i][j]=1;
+   if(i==n-1 && j==n-1)return true;
+   int jumps=matrix[i][j];
+   for(int k=1;k<=jumps;k++){
+       if( helper(res,matrix,n,i,j+k)) return true;
+       if( helper(res,matrix,n,i+k,j)) return true;
+   }
+   res[i][j]=0;
+   return false;
+   
 }
-bool helper(vector<vector<int>> &matrix, vector<vector<int>> &res, int x, int y, int n){
-        if(x==n-1 && y==n-1){
-            res[x][y]=1;
-            return true;
-        }
-        if(isSafe(matrix,x,y)==true){
-            res[x][y]=1;
-            for(int i=1;i<=matrix[x][y] && i<n;i++){
-                if(helper(matrix,res,x,y+i,n)==true){
-                    return true;
-                }
-                if(helper(matrix,res,x+i,y,n)==true){
-                    return true;
-                }
-            }
-            res[x][y]=0;
-            return false;
-        }
-        return false;
-}
-vector<vector<int>> ShortestDistance(vector<vector<int>> &matrix){
-	    int n=matrix.size();
-	    if(matrix[0][0]==0 && n!=1){
-	        return {{-1}};
-	    }
-	    vector<vector<int>> res(n,vector<int>(n,0));
-	    helper(matrix,res,0,0,n);
-	    return res;
+vector<vector<int>> ShortestDistance(vector<vector<int>>&matrix){
+   int n=matrix.size();
+   vector<vector<int>> res(n,vector<int>(n,0));
+   if(helper(res,matrix,n,0,0))return res;
+      return {{-1}};
 }
 
 
