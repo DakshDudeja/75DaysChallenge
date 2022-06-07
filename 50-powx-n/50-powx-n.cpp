@@ -1,21 +1,21 @@
 class Solution {
 public:
     double myPow(double x, int n) {
-        double ans;
-        long long g=n;
-        int flag=true;
-        if(g<0){
-            flag=false;
-            g=-1*g;}
-        if(g==0)
-            return 1;
-     double temp = myPow(x,g/2);
-        if(g%2==0)
-            ans= temp*temp;
-        else
-            ans= x*temp*temp;
-        if(flag==false)
-            ans = 1/ans;
-            return ans;
+        double ans=1.0;
+        long long t=n;
+        if(t<0) t=abs(t);
+        while(t){
+            if(t%2==0){
+                x=x*x;
+                t=t/2;
+            }
+            else{
+                ans=ans*x;
+                cout<<ans<<endl;
+                t=t-1;
+            }
+        }
+        if(n<0) ans=(double)(1.0)/(double)(ans);
+        return ans;
     }
 };
