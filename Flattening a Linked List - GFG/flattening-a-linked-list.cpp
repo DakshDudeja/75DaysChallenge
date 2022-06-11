@@ -92,43 +92,30 @@ int main(void) {
 // } Driver Code Ends
 
 
-Node* mergeTwoLists(Node* a, Node* b) {
-    
-    Node *temp = new Node(0);
-    Node *res = temp; 
-    
-    while(a != NULL && b != NULL) {
-        if(a->data < b->data) {
-            temp->bottom = a; 
-            temp = temp->bottom; 
-            a = a->bottom; 
-        }
-        else {
-            temp->bottom = b;
-            temp = temp->bottom; 
-            b = b->bottom; 
-        }
-    }
-    
-    if(a) temp->bottom = a; 
-    else temp->bottom = b; 
-    
-    return res -> bottom; 
-    
-}
-Node *flatten(Node *root)
-{
+#define pii pair<int,Node*>
+Node *flatten(Node *root){
+   Node* head = new Node(-1);
    
-        if (root == NULL || root->next == NULL) 
-            return root; 
-  
-        // recur for list on right 
-        root->next = flatten(root->next); 
-  
-        // now merge 
-        root = mergeTwoLists(root, root->next); 
-  
-        // return the root 
-        // it will be in turn merged with its left 
-        return root; 
+   priority_queue<pii,vector<pii>,greater<pii>> pq;
+   
+   Node* curr = root;
+   
+   while(curr){
+       pq.push({curr->data,curr});
+       curr = curr->next;
+   }
+   
+   Node* ref = head;
+   
+   while(!pq.empty()){
+       auto top = pq.top(); pq.pop();
+       if(top.second->bottom){
+           pq.push({top.second->bottom->data,top.second->bottom});
+       }
+       ref->bottom = top.second;
+       ref = ref->bottom;
+       ref->next = NULL;
+   }
+   
+   return head->bottom;
 }
