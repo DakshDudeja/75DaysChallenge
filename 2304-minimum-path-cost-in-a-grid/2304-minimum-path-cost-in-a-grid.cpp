@@ -1,28 +1,21 @@
 class Solution {
 public:
-    int solve(int i,int j,vector<vector<int>>& grid, vector<vector<int>>& moveCost,vector<vector<int>>&dp){
-        if(i>=grid.size() || j>=grid[0].size()) return 0;
-        if(i==grid.size()-1) return grid[i][j];
-        
-        if(dp[i][j]!=-1) return dp[i][j];
-            
-        int mini1=INT_MAX,res=0;
-        for(int k=0;k<grid[i].size();k++){
-            // cout<<res<<endl;
-             res = grid[i][j]+moveCost[grid[i][j]][k]+ solve(i+1,k,grid,moveCost,dp);
-            mini1=min(mini1,res);
-        }
-        return dp[i][j]=mini1;
+int minPathCost(vector<vector<int>>& grid, vector<vector<int>>& moveCost) {
+int m=grid.size(), n=grid[0].size();
+vector<vector<int>> res(m,(vector<int>(n,INT_MAX)));
+    for(int i=0; i<n; i++){
+         res[m-1][i]=grid[m-1][i];
     }
-    int minPathCost(vector<vector<int>>& grid, vector<vector<int>>& moveCost) {
-        int n=grid.size(),m=grid[0].size();
-        int mini=INT_MAX;
-        vector<vector<int>>dp(n+1,vector<int>(m+1,-1));
-
-        for(int i=0;i<m;i++){
-            int ans = solve(0,i,grid,moveCost,dp);
-            mini=min(ans,mini);
+    for(int row =m-2; row>=0; row--){
+        for(int col=0; col<n;col++){
+            for(int nextcol=0; nextcol<n; nextcol++){
+                res[row][col] = min(res[row][col], grid[row][col] + res[row+1][nextcol] +                                                      moveCost[grid[row][col]] [nextcol]);
+            }
         }
-        return mini;
+    }
+    int result =INT_MAX;
+    for(auto el:res[0])
+        result = min(result, el);
+    return result;
     }
 };
