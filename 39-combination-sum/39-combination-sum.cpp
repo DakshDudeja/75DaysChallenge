@@ -1,26 +1,24 @@
 class Solution {
 public:
-    vector<int>temp;
     vector<vector<int>>res;
-    void solve(int idx,vector<int>& c, int target){
+    void solve(int i,vector<int>temp,vector<int>&c,int target){
         if(target==0){
             res.push_back(temp);
-            return;
+            return;     
         }
-        if(idx>=c.size()) return;
-        if(c[idx]<=target){
-            temp.push_back(c[idx]);
-            solve(idx,c,target-c[idx]);
-            temp.pop_back();        
-        }
-        solve(idx+1,c,target);
+        if(i>=c.size() || target <0)return;
+        
+        temp.push_back(c[i]);
+        solve(i,temp,c,target-c[i]);
+        temp.pop_back();
+
+        solve(i+1,temp,c,target);
+        
         return;
-        
     }
-    
     vector<vector<int>> combinationSum(vector<int>& c, int target) {
-        solve(0,c,target);
+        vector<int>temp;
+        solve(0,temp,c,target);
         return res;
-        
     }
 };
