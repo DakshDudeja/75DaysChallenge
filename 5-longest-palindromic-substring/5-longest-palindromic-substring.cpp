@@ -1,21 +1,25 @@
 class Solution {
-    void expand_around_center(string &str,int l,int r,string &ans){
-        while(l >= 0 and r < str.size() and str[l] == str[r]){
-            l--,r++;   
-        }
-        l++,r--;  //to avoid overflow
-        string temp = str.substr(l,r-l+1); //l-r+1 = length of substring
-        // cout<<temp<<endl;
-        if(temp.size() > ans.size()) ans = temp;
-    }
 public:
-    string longestPalindrome(string str) {
-        int n = str.size();
-        string ans;
-        for(int i=0;i<n;i++){
-            expand_around_center(str,i-1,i+1,ans); // odd length palindrome
-            expand_around_center(str,i-1,i,ans); // even length palindrome
+    int maxi=0;
+    void expand_around_center(int i,int j,string &s,string &res){
+        while(i>=0 and j<s.size() and s[i]==s[j]){
+            i--,j++;
         }
-        return ans;
+        i++,j--;  //to avoid overflow
+        int len=j-i+1;
+        if(len>maxi){
+            res=s.substr(i,j-i+1);
+            maxi=len;
+        }
+        
+    }
+    string longestPalindrome(string s) {
+         string res;
+        for(int i=0;i<s.size();i++){
+            expand_around_center(i-1,i,s,res); //even
+            expand_around_center(i-1,i+1,s,res); //odd
+            
+        }
+        return res;
     }
 };
