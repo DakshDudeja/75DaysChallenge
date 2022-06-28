@@ -86,10 +86,10 @@ class Solution
     int res=0;
     void solve(Node* root,int &K){
         if(root==NULL) return;
-        if(K==0){
-            res=root->data;
-            return;
-        }
+        // if(K==0){
+        //     res=root->data;
+        //     return;
+        // }
         
         solve(root->right,K);
         K--;
