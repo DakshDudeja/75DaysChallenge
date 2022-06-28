@@ -17,7 +17,7 @@ class Solution {
             res = max(res, sum);
             return { true, min(l.minVal, node->val), max(r.maxVal, node->val), sum };
         } else {
-            return { false, 0, 0, 0 };
+            return { false, INT_MIN, INT_MAX, 0 };
         }
     }
 public:
