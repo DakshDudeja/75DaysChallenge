@@ -13,26 +13,25 @@ using namespace std;
 class Solution{
   public:
   //bs on arr2
-  vector<int> countEleLessThanOrEqual(int arr1[], int arr2[], 
-                                int m, int n) 
-   {
-       vector<int>v;
-       sort(arr2,arr2+n);
-       for(int i=0; i<m; i++) {
-           int low = 0, high = n-1, mid;
-           while(low<=high) {
-               mid = low + (high - low)/2;
-               if(arr2[mid] <= arr1[i] ) {
-                   low = mid + 1;
-               }
-               else {
-                   high = mid - 1;
-               }
-           }
-           v.push_back(low);
-       }
-       return v;
-   }
+    vector<int> countEleLessThanOrEqual(int arr1[], int arr2[], 
+                                 int m, int n)
+    {
+    sort(arr2,arr2+n);
+    vector<int>ans;
+    for(int i=0;i<m;i++){
+        int l=0,r=n-1,mid;
+      while(l<=r){
+           mid=l+(r-l)/2;
+          if(arr2[mid]<=arr1[i]){
+              l=mid+1;
+          }
+          else r=mid-1;
+      }
+        ans.push_back(l);
+    }
+    
+    return ans;
+  }
 };
 
 // { Driver Code Starts.
