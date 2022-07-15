@@ -20,6 +20,7 @@ public:
                 break;
             }
         }
+        cout<<bp<<" "<<bp2<<endl;
         swap(nums[bp],nums[bp2]);
         reverse(nums.begin() + bp + 1, nums.end());
     }
