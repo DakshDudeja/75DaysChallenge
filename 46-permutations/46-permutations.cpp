@@ -1,20 +1,21 @@
 class Solution {
 public:
-     vector<vector<int>>res;
-    void solve(int i,vector<int>&s,int n){
-        if(i==n){
-            res.push_back(s);
+    vector<vector<int>>res;    
+    void solve(int idx,vector<int>&nums){
+        if(idx==nums.size()){
+            res.push_back(nums);
+            return;
         }
-        for(int j=i;j<n;j++){
-            swap(s[j],s[i]);
-            solve(i+1,s,n);
-            swap(s[j],s[i]);
+        for(int j=idx;j<nums.size();j++){
+            swap(nums[idx],nums[j]);
+            solve(idx+1,nums);
+            swap(nums[j],nums[idx]);
         }
+        
         return;
     }
     vector<vector<int>> permute(vector<int>& nums) {
-        int n =nums.size();
-        solve(0,nums,n);
+        solve(0,nums);
         return res;
     }
 };
