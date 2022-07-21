@@ -1,25 +1,28 @@
 class Solution {
 public:
-    int solve(int i,int canBuy,int k,vector<int>& prices,vector<vector<int>>&dp){
+    int solve(int i,int canBuy,int k,vector<int>& prices,vector<vector<vector<int>>>&dp){
         if(i>=prices.size() || k<=0) return 0;
         
-        if(dp[i][canBuy]!=-1) return dp[i][canBuy];
+        if(dp[i][canBuy][k]!=-1) return dp[i][canBuy][k];
         
         int idle = solve(i+1,canBuy,k,prices,dp);
-        int buy=0,sell=0;
+        int a=0,b=0;
         if(canBuy){
-             buy = -prices[i] + solve(i+1,0,k,prices,dp);
+             a = -prices[i] + solve(i+1,0,k,prices,dp);
         }
         else
-          sell = +prices[i] + solve(i+1,1,k-1,prices,dp);
+            b = +prices[i] + solve(i+1,1,0,prices,dp);
         
-        return dp[i][canBuy] = max(idle,max(buy,sell));
+        return dp[i][canBuy][k] = max(idle,max(a,b));
         
     }
     int maxProfit(vector<int>& prices) {
         int n=prices.size();
-        vector<vector<int>>dp(n,vector<int>(2,-1));
+        vector<vector<vector<int>>>dp(n,vector<vector<int>>(2,vector<int>(2,-1)));
         return solve(0,1,1,prices,dp);
 
     }
 };
+// 7,1,5,3,6,4
+//idle = 
+//a=
