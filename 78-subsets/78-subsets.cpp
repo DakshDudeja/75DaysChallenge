@@ -1,19 +1,23 @@
 class Solution {
 public:
-    void solve(vector<int>& nums,int idx,vector<int>&temp,vector<vector<int>>&ans){
-        if(idx>=nums.size()){
-            ans.push_back(temp);
-            return;
+    vector<vector<int>>res;
+    void solve(int i,vector<int>&nums,vector<int>&temp){
+        if(i>=nums.size()){
+            res.push_back(temp);
+            return;   
         }
-        temp.push_back(nums[idx]);        //backtracking
-        solve(nums,idx+1,temp,ans);
+        
+        //include krega
+        temp.push_back(nums[i]);
+        solve(i+1,nums,temp);
         temp.pop_back();
-        solve(nums,idx+1,temp,ans);
+        solve(i+1,nums,temp);
+        
+        return;
     }
     vector<vector<int>> subsets(vector<int>& nums) {
         vector<int>temp;
-        vector<vector<int>>ans;
-        solve(nums,0,temp,ans);
-        return ans;
+        solve(0,nums,temp);
+        return res;
     }
 };
