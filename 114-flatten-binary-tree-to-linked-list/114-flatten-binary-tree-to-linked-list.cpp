@@ -1,22 +1,18 @@
+
 class Solution {
 public:
-    // morrisTraversal
     void flatten(TreeNode* root) {
-         TreeNode* cur = root;
-		while (cur!=NULL)
-		{
-			if(cur->left!=NULL)
-			{
-				TreeNode* pre = cur->left;
-				while(pre->right!=NULL)
-				{
-					pre = pre->right;
-				}
-				pre->right = cur->right;
-				cur->right = cur->left;
-				cur->left = NULL;
-			}
-			cur = cur->right;
-		}
+        if(!root) return;
+        while(root){
+            if(root->left){
+                TreeNode* left =root->left;
+                TreeNode* curr=left;
+                while(curr->right) curr=curr->right;
+                curr->right =root->right;
+                root->left = NULL;
+                root->right=left;
+            }
+            root=root->right;
+        }
     }
 };
