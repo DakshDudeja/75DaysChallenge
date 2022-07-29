@@ -3,7 +3,7 @@ public:
     int minimumEffortPath(vector<vector<int>>& h) {
         
         int n=h.size(),m=h[0].size();
-        priority_queue<vector<int>>pq;
+        priority_queue<vector<int>,vector<vector<int>>,greater<vector<int>>>pq;
         pq.push({0,0,0});
         
         vector<vector<int>>dist(n,vector<int>(m,1e9));
@@ -14,7 +14,7 @@ public:
             auto currNode = pq.top();
             pq.pop();
             
-            int currWt = -currNode[0];
+            int currWt = currNode[0];
             int currR =  currNode[1];
             int currC =  currNode[2];
             
@@ -28,7 +28,7 @@ public:
                     int neuWt = max(currWt, abs(h[currR][currC] - h[i][j]));
                     if(dist[i][j]>neuWt){
                         dist[i][j]=neuWt;
-                        pq.push({-neuWt,i,j});
+                        pq.push({neuWt,i,j});
 
                     }
                     
