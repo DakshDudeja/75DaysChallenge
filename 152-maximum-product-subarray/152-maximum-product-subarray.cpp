@@ -2,25 +2,23 @@ class Solution {
 public:
     int maxProduct(vector<int>& nums) {
         int n=nums.size();
-        vector<int>leftprod(n);
-        vector<int>rightprod(n);
-        int leftmax=INT_MIN ,rightmax=INT_MIN;
-        int prod=1;
+        vector<int>left(n);
+        vector<int>right(n);
+        int prod=1,lefti=INT_MIN;
         for(int i=0;i<n;i++){
             prod*=nums[i];
-            leftprod[i]=prod;
-            leftmax=max(leftmax,leftprod[i]);
-            
+            left[i]=prod;
+            lefti=max(lefti,left[i]);
             if(prod==0) prod=1;
         }
         prod=1;
+        int righti=INT_MIN;
         for(int i=n-1;i>=0;i--){
             prod*=nums[i];
-            rightprod[i]=prod;
-            rightmax=max(rightmax,rightprod[i]);
-            
+            right[i]=prod;
+            righti=max(righti,right[i]);
             if(prod==0) prod=1;
-        }
-        return max(leftmax,rightmax);
+        } 
+        return max(lefti,righti); 
     }
 };
