@@ -1,57 +1,61 @@
+
 class Codec {
 public:
-    
-    void buildString(TreeNode* root, string &res)
-    {
-        if(root == NULL)
-        {   res += "null,";
-            return;
+    string serialize(TreeNode* root) {
+     if(!root) return " ";
+      string s;
+      queue<TreeNode*>q;
+      q.push(root);
+        while(!q.empty()){
+            auto curr =q.front();
+            q.pop();
+            if(curr==NULL){
+                s+="#,";
+            }
+            else{
+                s+=to_string(curr->val)+',';
+            }
+            if(curr!=NULL){
+                q.push(curr->left);
+                q.push(curr->right);
+            }
         }
-        
-        res += to_string(root->val) + ",";
-        buildString(root->left, res);
-        buildString(root->right, res);
+        cout<<s;   //1,2,3,#,#,4,5,#,#,#,#,
+        return s;
     }
     
-    string serialize(TreeNode* root) 
-    { 
-        string res = "";
-        buildString(root, res);
-        // cout<<res<<endl;
-        return res;
+    int getNum(string &s,int& i,int& n){
+        string res="";
+        while(i<n and s[i]!=',') res+=s[i++];
+        i++;
+        return stoi(res);
     }
     
-    TreeNode* buildTree(queue<string> &q) 
-    {
-        string s = q.front();
-        q.pop();
-        
-        if(s == "null")
-            return NULL;
-        
-        TreeNode* root = new TreeNode(stoi(s));
-        root->left = buildTree(q);
-        root->right = buildTree(q);
+    
+    TreeNode* deserialize(string data) {
+        if(data==" ") return NULL;
+        queue<TreeNode*>q;
+        int i=0,n=data.size();
+        TreeNode* root = new TreeNode(getNum(data,i,n));
+        q.push(root);
+        while(!q.empty()){
+                TreeNode* curr=q.front();
+                q.pop();
+                if(data[i]=='#')i+=2;
+                else{
+                    curr->left = new TreeNode(getNum(data,i,n));
+                    q.push(curr->left);
+                }
+                if(data[i]=='#')i+=2;
+                else{
+                    curr->right = new TreeNode(getNum(data,i,n));
+                    q.push(curr->right);
+                }
+        }
         return root;
     }
-    
-    TreeNode* deserialize(string data) 
-    {
-        string s = "";
-        queue <string> q;
-        
-        for(char c: data) 
-        {
-            if(c == ',') 
-            {
-                q.push(s);
-                cout<<s<<endl;
-                s = "";
-            }
-            else
-                s += c;
-        }
-        
-        return buildTree(q);
-    }
 };
+
+// Your Codec object will be instantiated and called as such:
+// Codec ser, deser;
+// TreeNode* ans = deser.deserialize(ser.serialize(root));
